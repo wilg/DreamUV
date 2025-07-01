@@ -79,8 +79,6 @@ def uv_trim(context):
 
     if context.scene.trim_index > ( len(atlas) - 1.0 ):
         context.scene.trim_index = 0.0
-    if context.scene.trim_index > ( len(atlas) - 1 ):
-        context.scene.trim_index = 0
 
 
     #MAKE DUPLICATE AND SPLIT EDGES
