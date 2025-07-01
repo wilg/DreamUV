@@ -1,5 +1,5 @@
 #this script is dedicated to the public domain under CC0 (https://creativecommons.org/publicdomain/zero/1.0/)
-#do whatever you want with it!
+#do whatever you want with it! 
 
 bl_info = {
     "name": "DreamUV",
@@ -12,15 +12,15 @@ bl_info = {
 
 import bpy
 from bpy.props import EnumProperty, BoolProperty, FloatProperty, IntProperty, PointerProperty
-from . import DUV_UVTranslate
-from . import DUV_UVRotate
-from . import DUV_UVScale
-from . import DUV_UVExtend
-from . import DUV_UVStitch
-from . import DUV_UVTransfer
+from . import DUV_UVTranslate 
+from . import DUV_UVRotate 
+from . import DUV_UVScale 
+from . import DUV_UVExtend 
+from . import DUV_UVStitch 
+from . import DUV_UVTransfer 
 from . import DUV_UVCycle
 from . import DUV_UVCopy
-from . import DUV_UVMirror
+from . import DUV_UVMirror 
 from . import DUV_UVMoveToEdge
 from . import DUV_Utils
 from . import DUV_HotSpot
@@ -36,12 +36,12 @@ if 'bpy' in locals():
     importlib.reload(DUV_UVTranslate)
     importlib.reload(DUV_UVRotate)
     importlib.reload(DUV_UVScale)
-    importlib.reload(DUV_UVExtend)
+    importlib.reload(DUV_UVExtend) 
     importlib.reload(DUV_UVStitch)
-    importlib.reload(DUV_UVTransfer)
-    importlib.reload(DUV_UVCycle)
+    importlib.reload(DUV_UVTransfer) 
+    importlib.reload(DUV_UVCycle) 
     importlib.reload(DUV_UVCopy)
-    importlib.reload(DUV_UVMirror)
+    importlib.reload(DUV_UVMirror) 
     importlib.reload(DUV_UVMoveToEdge)
     importlib.reload(DUV_Utils)
     importlib.reload(DUV_HotSpot)
@@ -183,7 +183,7 @@ class DREAMUV_PT_uv(bpy.types.Panel):
         unwraptool=col.operator("uv.unwrap", text="Blender Unwrap", icon='UV')
         unwraptool.method='CONFORMAL'
         unwraptool.margin=0.001
-
+        
 
         col.separator()
         box = layout.box()
@@ -205,13 +205,13 @@ class DREAMUV_PT_uv(bpy.types.Panel):
         box = layout.box()
         col = box.column(align=True)
         col.label(text="HotSpot Tool:")
-
+        
         #row.label(text="Atlas Object:")
         #row.prop_search(context.scene, "subrect_atlas", context.scene, "objects", text="", icon="MOD_MULTIRES")
         #row = col.row(align = True)
-
+        
         col.separator()
-
+        
         radiobutton = (
             context.scene.duv_hotspot_atlas1,
             context.scene.duv_hotspot_atlas1,
@@ -223,23 +223,23 @@ class DREAMUV_PT_uv(bpy.types.Panel):
             context.scene.duv_hotspot_atlas7,
             context.scene.duv_hotspot_atlas8,
         )
-
+        
         listsize = 1
         col.prop(context.scene, "atlas_list_size", text="atlas count:")
-
-
+        
+        
         while listsize <= context.scene.atlas_list_size:
-            row = col.row(align = True)
+            row = col.row(align = True)      
             #row.prop(context.scene, "duv_hotspot_atlas1", icon="IPO_SINE", text="")
-            if radiobutton[listsize]:
+            if radiobutton[listsize]: 
                 op = row.operator("view3d.dreamuv_pushhotspot", text="", icon="RADIOBUT_ON")
-            if not radiobutton[listsize]:
+            if not radiobutton[listsize]: 
                 op = row.operator("view3d.dreamuv_pushhotspot", text="", icon="RADIOBUT_OFF")
             op.index = listsize
             row.prop_search(context.scene, "subrect_atlas"+str(listsize), context.scene, "objects", text="", icon="MOD_MULTIRES")
             row.prop_search(context.scene, "duv_hotspotmaterial"+str(listsize), bpy.data, "materials", text="")
             listsize += 1
-
+                
         col.separator()
         row = col.row(align = True)
         row.label(text="Atlas Scale:")
@@ -247,9 +247,9 @@ class DREAMUV_PT_uv(bpy.types.Panel):
         row = col.row(align = True)
         #row.label(text="Hotspot material:")
         #row.prop_search(context.scene, "duv_hotspotmaterial", bpy.data, "materials", text="")
-
-
-
+        
+        
+        
         row = col.row(align = True)
         row.prop(context.scene, "duv_hotspotuseinset", icon="FULLSCREEN_EXIT", text="inset")
         row.separator()
@@ -274,46 +274,46 @@ class DREAMUV_PT_uv(bpy.types.Panel):
         col = box.column(align=True)
         col.label(text="Trim Tool:")
         row = col.row(align = True)
-
+        
         row.label(text="Trim/Cap Atlas:")
         row.prop_search(context.scene, "trim_atlas", context.scene, "objects", text="", icon="LINENUMBERS_ON")
         row = col.row(align = True)
         #row.prop(context.scene, "trim_index", text="")
         row.label(text="Trim index: "+str(context.scene.trim_index))
-        #row = col.row(align = True)
+        #row = col.row(align = True) 
         op = row.operator("view3d.dreamuv_uvtrimnext", text=" ", icon="BACK")
         op.reverse = True
         op = row.operator("view3d.dreamuv_uvtrimnext", text=" ", icon="FORWARD")
         op.reverse = False
-
+        
         row = col.row(align = True)
         row.label(text="Cap index: "+str(context.scene.cap_index))
-        #row = col.row(align = True)
+        #row = col.row(align = True) 
         op = row.operator("view3d.dreamuv_uvcapnext", text=" ", icon="BACK")
         op.reverse = True
         op = row.operator("view3d.dreamuv_uvcapnext", text=" ", icon="FORWARD")
         op.reverse = False
-
+        
         row = col.row(align = True)
         row.enabled = not context.scene.duv_uvtrim_randomshift
         row.prop(context.scene, "duv_uvtrim_bounds", icon="CENTER_ONLY", text="bounds")
         row.separator()
         row.prop(context.scene, "duv_uvtrim_min", text="")
         row.prop(context.scene, "duv_uvtrim_max", text="")
-
+        
         col.separator()
-        row = col.row(align = True)
+        row = col.row(align = True) 
         row.operator("view3d.dreamuv_uvtrim", text="Trim", icon="SEQ_SEQUENCER")
 
         row.operator("view3d.dreamuv_uvcap", text="Cap", icon="MOD_BUILD")
-
+        
         row.prop(context.scene, "duv_uvtrim_randomshift", icon="NLA_PUSHDOWN", text="")
         row.prop(context.scene, "duv_autoboxmaptrim", icon="EVENT_B", text="")
         row.prop(context.scene, "duv_trimcap_uv1", icon="IPO_SINE", text="")
         row.prop(context.scene, "duv_trimcap_uv2", icon="IPO_QUAD", text="")
-
-
-
+        
+        
+        
         #boxmap
         col.separator()
         box = layout.box()
@@ -326,8 +326,8 @@ class DREAMUV_PT_uv(bpy.types.Panel):
         row.operator("view3d.dreamuv_uvboxmap", text="Boxmap", icon="FILE_3D")
         row.prop(context.scene, "duv_boxmap_uv1", icon="IPO_SINE", text="")
         row.prop(context.scene, "duv_boxmap_uv2", icon="IPO_QUAD", text="")
-
-
+        
+               
         col.separator()
         box = layout.box()
         col = box.column(align=True)
@@ -338,7 +338,7 @@ class DREAMUV_PT_uv(bpy.types.Panel):
         op.reverse = False
         op = row.operator("view3d.dreamuv_uvcopy", text="copy uv2->1", icon="XRAY")
         op.reverse = True
-
+        
         if bpy.context.object.type == 'MESH':
             me = bpy.context.object.data
             #me = bpy.context.object.mesh
@@ -350,27 +350,24 @@ class DREAMUV_PT_uv(bpy.types.Panel):
             col = row.column(align=True)
             col.operator("mesh.uv_texture_add", icon='ADD', text="")
             col.operator("mesh.uv_texture_remove", icon='REMOVE', text="")
-
+        
         #context.scene.duv_experimentaltools = True
         #if context.scene.duv_experimentaltools is True:
         col.separator()
+                
+        
 
-
-
-
+        
 
         col = self.layout.column(align = True)
         col2= self.layout.column(align = True)
         col2.label(text="Send feedback to:")
-        row = col2.row(align = True)
+        row = col2.row(align = True) 
         row.label(text="@Leukbaars@mastodon.gamedev.place")
         row.prop(context.scene, "duv_experimentaltools", icon="HEART", text="")
+        
+        
 
-
-
-
-# Store keymaps here to access after registration
-addon_keymaps = []
 
 def prefs():
     return bpy.context.preferences.addons[__name__].preferences
@@ -413,20 +410,6 @@ def register():
     for cls in classes:
         bpy.utils.register_class(cls)
 
-    # Register hotkeys
-    wm = bpy.context.window_manager
-    kc = wm.keyconfigs.addon
-    if kc:
-        km = kc.keymaps.new(name='3D View', space_type='VIEW_3D')
-
-        # Alt+Shift+H for HotSpot
-        kmi = km.keymap_items.new('view3d.dreamuv_hotspotter', type='H', value='PRESS', alt=True, shift=True)
-        addon_keymaps.append((km, kmi))
-
-        # Alt+Shift+T for Trim
-        kmi = km.keymap_items.new('view3d.dreamuv_uvtrim', type='T', value='PRESS', alt=True, shift=True)
-        addon_keymaps.append((km, kmi))
-
     bpy.types.Scene.subrect_atlas = bpy.props.PointerProperty (name="atlas",type=bpy.types.Object,description="atlas object")
     bpy.types.Scene.uv_box = bpy.props.PointerProperty (name="uvbox",type=bpy.types.Object,description="uv box")
     bpy.types.Scene.trim_atlas = bpy.props.PointerProperty (name="trim_atlas",type=bpy.types.Object,description="trim atlas")
@@ -461,7 +444,7 @@ def register():
     bpy.types.Scene.duv_uvtrim_bounds = bpy.props.BoolProperty (name = "duv_uvtrim_bounds",default = False,description = "Scale trim to boundary region")
     bpy.types.Scene.duv_uvtrim_min = bpy.props.FloatProperty (name = "duv_uvtrim_min",default = 0.0,description = "Boundary start")
     bpy.types.Scene.duv_uvtrim_max = bpy.props.FloatProperty (name = "duv_uvtrim_max",default = 1.0,description = "Boundary end")
-
+    
     bpy.types.Scene.subrect_atlas1 = bpy.props.PointerProperty (name="atlas1",type=bpy.types.Object,description="atlas1")
     bpy.types.Scene.subrect_atlas2 = bpy.props.PointerProperty (name="atlas2",type=bpy.types.Object,description="atlas2")
     bpy.types.Scene.subrect_atlas3 = bpy.props.PointerProperty (name="atlas3",type=bpy.types.Object,description="atlas3")
@@ -479,7 +462,7 @@ def register():
     bpy.types.Scene.duv_hotspotmaterial6 = bpy.props.PointerProperty (name="duv_hotspotmaterial6",type=bpy.types.Material,poll=poll_material,description="Hotspot material 6")
     bpy.types.Scene.duv_hotspotmaterial7 = bpy.props.PointerProperty (name="duv_hotspotmaterial7",type=bpy.types.Material,poll=poll_material,description="Hotspot material 7")
     bpy.types.Scene.duv_hotspotmaterial8 = bpy.props.PointerProperty (name="duv_hotspotmaterial8",type=bpy.types.Material,poll=poll_material,description="Hotspot material 8")
-
+    
     bpy.types.Scene.duv_hotspot_atlas1 = bpy.props.BoolProperty (name = "duv_hotspot_atlas1",default = True,description = "duv_hotspot_atlas1")
     bpy.types.Scene.duv_hotspot_atlas2 = bpy.props.BoolProperty (name = "duv_hotspot_atlas2",default = False,description = "duv_hotspot_atlas2")
     bpy.types.Scene.duv_hotspot_atlas3 = bpy.props.BoolProperty (name = "duv_hotspot_atlas3",default = False,description = "duv_hotspot_atlas3")
@@ -488,7 +471,7 @@ def register():
     bpy.types.Scene.duv_hotspot_atlas6 = bpy.props.BoolProperty (name = "duv_hotspot_atlas6",default = False,description = "duv_hotspot_atlas6")
     bpy.types.Scene.duv_hotspot_atlas7 = bpy.props.BoolProperty (name = "duv_hotspot_atlas7",default = False,description = "duv_hotspot_atlas7")
     bpy.types.Scene.duv_hotspot_atlas8 = bpy.props.BoolProperty (name = "duv_hotspot_atlas8",default = False,description = "duv_hotspot_atlas8")
-
+    
     bpy.types.Scene.atlas_list_size = bpy.props.IntProperty (
         name = "atlas_list_size",
         default = 1,
@@ -496,14 +479,9 @@ def register():
         max = 8,
         description = "atlas_list_size",
         )
-
+    
 
 def unregister():
-    # Unregister hotkeys
-    for km, kmi in addon_keymaps:
-        km.keymap_items.remove(kmi)
-    addon_keymaps.clear()
-
     for cls in reversed(classes):
         bpy.utils.unregister_class(cls)
 
